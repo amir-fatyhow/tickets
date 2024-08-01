@@ -2,12 +2,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 
 public class TicketAnalyzer {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         if (args.length != 1) {
             System.err.println("Usage: java TicketAnalyzer <path_to_json_file>");
             System.exit(1);
@@ -53,7 +54,7 @@ public class TicketAnalyzer {
         }
     }
 
-    private static Map<String, Integer> calculateMinFlightTimePerCarrier(List<Ticket> tickets) {
+    private static Map<String, Integer> calculateMinFlightTimePerCarrier(List<Ticket> tickets) throws ParseException {
         Map<String, Integer> minFlightTimes = new HashMap<>();
         for (Ticket ticket : tickets) {
             int flightDuration = ticket.getFlightDuration();

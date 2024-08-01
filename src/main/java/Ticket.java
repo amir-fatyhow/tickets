@@ -1,6 +1,6 @@
-import java.time.Duration;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 class Ticket {
     public String origin;
@@ -16,10 +16,13 @@ class Ticket {
     public int price;
 
     // Method to calculate flight duration in minutes
-    public int getFlightDuration() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
-        LocalTime departure = LocalTime.parse(departure_time, formatter);
-        LocalTime arrival = LocalTime.parse(arrival_time, formatter);
-        return (int) Duration.between(departure, arrival).toMinutes();
+    public int getFlightDuration() throws ParseException {
+        String departureDateTime = departure_date + " " + departure_time;
+        String arrivalDateTime = arrival_date + " " + arrival_time;
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yy HH:mm");
+        Date departure = formatter.parse(departureDateTime);
+        Date arrival = formatter.parse(arrivalDateTime);
+        long differenceInMSeconds = arrival.getTime() - departure.getTime();
+        return (int) (differenceInMSeconds / (60 * 1000));
     }
 }
